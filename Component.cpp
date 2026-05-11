@@ -56,7 +56,7 @@ Component::Component(std::string name, int version, std::optional<std::string> o
         );
     }
     for (auto& portStruct : portStructs) {
-        ports.emplace_back(portStruct, getTransportByName(portStruct.transportName));
+        ports.emplace_back(portStruct, getTransportByName(portStruct.transportName), name);
     }
     for (auto& actStruct : actionStructs) {
         actions.push_back(std::make_shared<Action>(

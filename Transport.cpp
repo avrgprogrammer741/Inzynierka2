@@ -26,25 +26,26 @@ void Transport::connect() {
     client.connect(connOpts)->wait();
     connected = true;
 }
-void Transport::publishAMessage(const std::string& message, std::string& endpoint) {
+void Transport::publishAMessage(const std::string& message, const std::string& prefix) {
     if (protocol != "mqtt") {
         throw std::runtime_error("Transport is not MQTT!");
     }
 
     try {
         // --- Publikacja ---
-        mqtt::message_ptr pubmsg = mqtt::make_message(endpoint + "/" + message, message); //Na razie wiadomosc to jedynie nazwa wiadomosci
+        mqtt::message_ptr pubmsg = mqtt::make_message(prefix + "/" + message, message); //Na razie wiadomosc to jedynie nazwa wiadomosci
         pubmsg->set_qos(1);
 
         client.publish(pubmsg)->wait();
-        std::cout << "Published message: " << endpoint + "/" + message << "\n";
+        std::cout << "Published message: " << prefix + "/" + message << "\n";
     }
     catch (const mqtt::exception& exc) {
         std::cerr << "MQTT ERROR: " << exc.what() << std::endl;
     }
 }
-void Transport::subscribeMessage(const std::string& messageName, const std::string& endpoint) {
-    client.subscribe(endpoint + "/" + messageName, 1)->wait();
+void Transport::subscribeMessage(const std::string& messageName, const std::string& prefix) {
+    client.subscribe(prefix + "/" + messageName, 1)->wait();
+    std::cout << "Subscribed to message: " << prefix + "/" + messageName << "\n";
 }
 void Transport::disconnect() {
     client.disconnect()->wait();

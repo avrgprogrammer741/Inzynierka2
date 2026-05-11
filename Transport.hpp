@@ -30,8 +30,8 @@ public:
     void setPort(int p) { port = p; }
     void setEncoding(std::string e) { encoding = e; }
     void setReceiver(std::shared_ptr<Receiver> receiver);
-    void publishAMessage(const std::string& message, std::string& endpoint);
-    void subscribeMessage(const std::string& messageName, const std::string& endpoint);
+    void publishAMessage(const std::string& message, const std::string& prefix);
+    void subscribeMessage(const std::string& messageName, const std::string& prefix);
     void connect();
     void disconnect();
 

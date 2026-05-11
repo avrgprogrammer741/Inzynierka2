@@ -4,12 +4,13 @@
 #include "utils.hpp"
 #include "Port.hpp"
 
-Port::Port(PortStruct& portStruct, std::shared_ptr<Transport> transport_ptr)
+Port::Port(PortStruct& portStruct, std::shared_ptr<Transport> transport_ptr, const std::string& componentName)
     : name(portStruct.name),
     transport(std::move(transport_ptr)),
     direction(portStruct.direction),
-    endpoint(portStruct.endpoint)
+    endpoint(portStruct.endpoint),
+    componentName(componentName)
 {
-    subscribeMessage("message1");
-    subscribeMessage("message2");
+    if(direction != "out")
+        subscribeMessage("#");
 }

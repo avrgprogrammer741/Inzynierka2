@@ -11,14 +11,14 @@ private:
     std::shared_ptr<Transport> transport;
     std::string direction;
     std::string endpoint;
-
+    const std::string componentName;
 public:
-    Port(PortStruct& portStruct, std::shared_ptr<Transport> transport_ptr);
+    Port(PortStruct& portStruct, std::shared_ptr<Transport> transport_ptr, const std::string& componentName);
     void publishAMessage(const std::string& message) {
         transport->publishAMessage(message, endpoint);
     }
     void subscribeMessage(const std::string& messageName) {
-        transport->subscribeMessage(messageName, endpoint);
+        transport->subscribeMessage(messageName, componentName + "/" + name);
     }
     const std::string& getName() const { return name; }
     const std::shared_ptr<Transport> getTransport() const { return transport; }
